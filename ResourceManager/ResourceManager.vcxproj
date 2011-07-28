@@ -14,8 +14,6 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="DisplayManager.cpp" />
-    <ClCompile Include="DrawableTex2D.cpp" />
-    <ClCompile Include="DrawableTexture.cpp" />
     <ClCompile Include="DXApp.cpp" />
     <ClCompile Include="FileIO.cpp" />
     <ClCompile Include="Link.cpp" />
@@ -27,8 +25,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="DisplayManager.h" />
-    <ClInclude Include="DrawableTex2D.h" />
-    <ClInclude Include="DrawableTexture.h" />
     <ClInclude Include="DXApp.h" />
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="Link.h" />

@@ -8,8 +8,6 @@
 #include"Link.h"
 #include"DisplayManager.h"
 #include"Camera.h"
-#include"DrawableTexture.h"
-#include"DrawableTex2D.h"
 #include<dxerr.h>
 
 #define HR(x)                                              \
@@ -72,9 +70,6 @@ private:
 
 	//display manager
 	DisplayManager displayManager;
-
-	//Dynamic texture for nodeID
-	DrawableTex2D nodeIDTex;
 
 	//Font for dynamic text
 	ID3DX10Font* idFont; 
@@ -240,7 +235,7 @@ void ResourceManager::buildLayouts()
 	D3D10_INPUT_ELEMENT_DESC NodeVertexDesc[] = 
 	{
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D10_INPUT_PER_VERTEX_DATA, 0},
-		{"TEXCOORD",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D10_INPUT_PER_VERTEX_DATA, 0},
+		{"TEXCOORD",  0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D10_INPUT_PER_VERTEX_DATA, 0},
 	};
 
 	NodeFX->GetTechniqueByName("T0")->GetPassByIndex(0)->GetDesc(&passDesc);
@@ -277,7 +272,7 @@ void ResourceManager::draw()
 			std::wostringstream textToDraw;
 			textToDraw << (*it)->nodeID.c_str();
 
-			RECT randomRect = {100, 100, 5, 5};
+			RECT randomRect = {200, CLIENT_HEIGHT / 2, 5, 5};
 			idFont->DrawText(0, textToDraw.str().c_str(), -1, &randomRect, DT_NOCLIP, WHITE); 
 
 			mDevice->GenerateMips((*it)->textureSRV);

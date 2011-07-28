@@ -27,11 +27,15 @@ Link::~Link(void)
 void Link::init(ID3D10Device* device, D3DXVECTOR4 &from, D3DXVECTOR4 &to)
 {
 	pDevice = device;
-	numVerts = 2;
+	numVerts = 4;
+
+	D3DXVECTOR3 midPoint = (D3DXVECTOR3(from.x, from.y, from.z) + D3DXVECTOR3(to.x, to.y, to.z)) * 0.5f;
 
 	std::vector<PosColVertex> v(numVerts);
-	v[0] = PosColVertex(D3DXVECTOR3(from.x, from.y, from.z), WHITE);
-	v[1] = PosColVertex(D3DXVECTOR3(to.x, to.y, to.z), WHITE);
+	v[0] = PosColVertex(D3DXVECTOR3(from.x, from.y, from.z), BLACK);
+	v[1] = PosColVertex(midPoint, BLACK);
+	v[2] = PosColVertex(midPoint, RED);
+	v[3] = PosColVertex(D3DXVECTOR3(to.x, to.y, to.z), RED);
 	
 	D3D10_BUFFER_DESC vbd;
     vbd.Usage = D3D10_USAGE_IMMUTABLE;

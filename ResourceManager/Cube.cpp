@@ -32,10 +32,10 @@ void Cube::init(ID3D10Device* device, float scale)
 	v[3] = PosTexVertex(D3DXVECTOR3(1.0f, -1.0f, -1.0f), D3DXVECTOR2(1, 1));
 
 	// Fill in the back face PosTexVertex data.
-	v[4] = PosTexVertex(D3DXVECTOR3(-1.0f, -1.0f, 1.0f), D3DXVECTOR2(0, 1));
-	v[5] = PosTexVertex(D3DXVECTOR3(1.0f, -1.0f, 1.0f), D3DXVECTOR2(0, 0));
-	v[6] = PosTexVertex(D3DXVECTOR3(1.0f,  1.0f, 1.0f), D3DXVECTOR2(1, 0));
-	v[7] = PosTexVertex(D3DXVECTOR3(-1.0f,  1.0f, 1.0f), D3DXVECTOR2(1, 1));
+	v[4] = PosTexVertex(D3DXVECTOR3(-1.0f, -1.0f, 1.0f), D3DXVECTOR2(1, 1));
+	v[5] = PosTexVertex(D3DXVECTOR3(1.0f, -1.0f, 1.0f), D3DXVECTOR2(0, 1));
+	v[6] = PosTexVertex(D3DXVECTOR3(1.0f,  1.0f, 1.0f), D3DXVECTOR2(0, 0));
+	v[7] = PosTexVertex(D3DXVECTOR3(-1.0f,  1.0f, 1.0f), D3DXVECTOR2(1, 0));
 
 	// Fill in the top face PosTexVertex data.
 	v[8]  = PosTexVertex(D3DXVECTOR3(-1.0f, 1.0f, -1.0f), D3DXVECTOR2(0, 1));
@@ -44,10 +44,10 @@ void Cube::init(ID3D10Device* device, float scale)
 	v[11] = PosTexVertex(D3DXVECTOR3(1.0f, 1.0f, -1.0f), D3DXVECTOR2(1, 1));
 
 	// Fill in the bottom face PosTexVertex data.
-	v[12] = PosTexVertex(D3DXVECTOR3(-1.0f, -1.0f, -1.0f), D3DXVECTOR2(0, 1));
-	v[13] = PosTexVertex(D3DXVECTOR3(1.0f, -1.0f, -1.0f), D3DXVECTOR2(0, 0));
-	v[14] = PosTexVertex(D3DXVECTOR3(1.0f, -1.0f,  1.0f), D3DXVECTOR2(1, 0));
-	v[15] = PosTexVertex(D3DXVECTOR3(-1.0f, -1.0f,  1.0f), D3DXVECTOR2(1, 1));
+	v[12] = PosTexVertex(D3DXVECTOR3(-1.0f, -1.0f, -1.0f), D3DXVECTOR2(1, 1));
+	v[13] = PosTexVertex(D3DXVECTOR3(1.0f, -1.0f, -1.0f), D3DXVECTOR2(0, 1));
+	v[14] = PosTexVertex(D3DXVECTOR3(1.0f, -1.0f,  1.0f), D3DXVECTOR2(0, 0));
+	v[15] = PosTexVertex(D3DXVECTOR3(-1.0f, -1.0f,  1.0f), D3DXVECTOR2(1, 0));
 
 	// Fill in the left face PosTexVertex data.
 	v[16] = PosTexVertex(D3DXVECTOR3(-1.0f, -1.0f,  1.0f), D3DXVECTOR2(0, 1));
@@ -61,8 +61,8 @@ void Cube::init(ID3D10Device* device, float scale)
 	v[22] = PosTexVertex(D3DXVECTOR3(1.0f,  1.0f,  1.0f), D3DXVECTOR2(1, 0));
 	v[23] = PosTexVertex(D3DXVECTOR3(1.0f, -1.0f,  1.0f), D3DXVECTOR2(1, 1));
 
-	// Create the index buffer
 
+	// Create the index buffer
 	DWORD i[36];
 
 	// Fill in the front face index data
