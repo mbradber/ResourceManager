@@ -1,0 +1,24 @@
+﻿  Node.cpp
+  Generating Code...
+  Compiling...
+  Main.cpp
+  c:\program files (x86)\microsoft directx sdk (february 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+c:\users\acer\desktop\resourcemanager\resourcemanager\main.cpp(120): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+c:\users\acer\desktop\resourcemanager\resourcemanager\main.cpp(121): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+c:\users\acer\desktop\resourcemanager\resourcemanager\main.cpp(123): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\acer\desktop\resourcemanager\resourcemanager\main.cpp(123): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\acer\desktop\resourcemanager\resourcemanager\main.cpp(163): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\acer\desktop\resourcemanager\resourcemanager\main.cpp(186): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(283) : see declaration of 'wcscpy'
+c:\users\acer\desktop\resourcemanager\resourcemanager\main.cpp(194): warning C4305: 'argument' : truncation from 'double' to 'FLOAT'
+  DisplayManager.cpp
+c:\users\acer\desktop\resourcemanager\resourcemanager\displaymanager.cpp(20): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(197) : see declaration of 'strtok'
+c:\users\acer\desktop\resourcemanager\resourcemanager\displaymanager.cpp(31): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(197) : see declaration of 'strtok'
+c:\users\acer\desktop\resourcemanager\resourcemanager\displaymanager.cpp(37): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(197) : see declaration of 'strtok'
+c:\users\acer\desktop\resourcemanager\resourcemanager\displaymanager.cpp(58): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(197) : see declaration of 'strtok'
+  Generating Code...
+  ResourceManager.vcxproj -> C:\Users\Acer\Desktop\ResourceManager\ResourceManager\Debug\ResourceManager.exe
