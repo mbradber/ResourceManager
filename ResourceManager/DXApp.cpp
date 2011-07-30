@@ -111,7 +111,7 @@ void DXApp::handleResize()
 	
 	// Set the viewport transform.
 
-	D3D10_VIEWPORT vp;
+	
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
 	vp.Width    = CLIENT_WIDTH;
@@ -172,7 +172,7 @@ bool DXApp::initWindow(HINSTANCE instanceHandle, int show)
 
 	RegisterClass(&wDes);
 
-	mainWindow = CreateWindow(L"First Window", L"My Window", WS_OVERLAPPEDWINDOW,
+	mainWindow = CreateWindow(L"First Window", L"Resource Graph", WS_OVERLAPPEDWINDOW,
 								CW_USEDEFAULT, CW_USEDEFAULT, CLIENT_WIDTH, CLIENT_HEIGHT,
 								0, 0, instanceHandle, this);
 

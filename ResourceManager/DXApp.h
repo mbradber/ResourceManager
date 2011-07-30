@@ -31,6 +31,7 @@ protected:
 
 	ID3D10Device * mDevice;
 	IDXGISwapChain * mSwapChain;
+	D3D10_VIEWPORT vp;
 
 	ID3D10RenderTargetView * rtView;
 	ID3D10DepthStencilView * dsView;

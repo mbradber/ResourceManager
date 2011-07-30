@@ -6,18 +6,9 @@
 #include"FileIO.h"
 #include"Node.h"
 #include"Link.h"
-#include"DisplayManager.h"
+#include"GraphManager.h"
 #include"Camera.h"
-#include<dxerr.h>
-
-#define HR(x)                                              \
-	{                                                      \
-	HRESULT hr = (x);                                      \
-	if(FAILED(hr))                                         \
-		{                                                  \
-		DXTrace(__FILE__, (DWORD)__LINE__, hr, L#x, true); \
-		}                                                  \
-	}
+#include"Slider.h"
 
 
 //set up an application class, inheriting from the framework
@@ -37,6 +28,7 @@ private:
 	void buildLayouts();
 	void setUpGeometry();
 	void loadFont();
+	void createTexture();
 	ID3D10Effect* buildFX(std::wstring filename);
 
 	//instance handle
@@ -69,7 +61,7 @@ private:
 	FileIO io;
 
 	//display manager
-	DisplayManager displayManager;
+	GraphManager graphManager;
 
 	//Font for dynamic text
 	ID3DX10Font* idFont; 
@@ -87,6 +79,9 @@ private:
 
 	//flag to redraw the node's textures
 	bool redrawTextures;
+	
+	//slider sprite to adjust navigation speed
+	Slider slider;
 };
 
 ResourceManager::ResourceManager(HINSTANCE hi):
@@ -104,12 +99,12 @@ ResourceManager::~ResourceManager()
 void ResourceManager::setUpGeometry()
 {
 	theta = 0;
-	interval = (float)(2*PI / displayManager.nodeList.size());
-	radius = displayManager.nodeList.size();
+	interval = (float)(2*PI / graphManager.nodeList.size());
+	radius = graphManager.nodeList.size();
 	//for every node in the graph, create and store a world matrix for it so that it lies
 	//on the circumferance of the circular graph, also registering its position within the 
 	//node data structure itself
-	for(std::list<Node*>::iterator it = displayManager.nodeList.begin(); it != displayManager.nodeList.end(); it++)
+	for(std::list<Node*>::iterator it = graphManager.nodeList.begin(); it != graphManager.nodeList.end(); it++)
 	{
 		D3DXMATRIX newMatrix;
 		int xCoord = radius * cosf(theta);
@@ -123,7 +118,7 @@ void ResourceManager::setUpGeometry()
 	}
 
 	//for every node in the graph, create and store a link between that node and its resource nodes
-	for(std::list<Node*>::iterator it = displayManager.nodeList.begin(); it != displayManager.nodeList.end(); it++)
+	for(std::list<Node*>::iterator it = graphManager.nodeList.begin(); it != graphManager.nodeList.end(); it++)
 	{
 		if((*it)->dependList.size() > 0)
 		{
@@ -136,12 +131,9 @@ void ResourceManager::setUpGeometry()
 	}
 }
 
-
-
 void ResourceManager::init()
 {
 	DXApp::initD3D();
-	this->handleResize();
 	//initialize FX variables
 	initFX();
 	//build input layouts
@@ -149,15 +141,19 @@ void ResourceManager::init()
 	//init DirectInput
 	initDInput(hInstance, mainWindow);
 	//init graph manager
-	displayManager.init(mDevice, io.getLineList());
+	graphManager.init(mDevice, io.getLineList());
 	//init geometry to be drawn
 	setUpGeometry();
 	//init the font
 	loadFont();
+	//init slider
+	slider.initSprite(mDevice);
 	//init camera
-	camera.init(D3DXVECTOR3(0, 0, -3 * (int)displayManager.nodeList.size()), 
+	camera.init(D3DXVECTOR3(0, 0, -3 * (int)graphManager.nodeList.size()), 
 		D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 1, 0));
 
+	//build the projection matrix and start the game clock
+	this->handleResize();
 	gameTimer.start();
 
 #ifdef DEBUG
@@ -186,7 +182,11 @@ void ResourceManager::loadFont()
 void ResourceManager::handleResize()
 {
 	DXApp::handleResize();
+	//if window resized, scene needs to rebuild it's projection matrix
 	D3DXMatrixPerspectiveFovLH(&projMatrix, 0.25f*PI, (float)CLIENT_WIDTH/CLIENT_HEIGHT, 1.0f, 1000.0f);
+
+	//if window resized, the slider needs to rebuild it's projection matrix
+	slider.rebuildProjection(CLIENT_WIDTH, CLIENT_HEIGHT);
 }
 
 void ResourceManager::initFX()
@@ -249,8 +249,10 @@ void ResourceManager::updateScene(float delta)
 	DXApp::updateScene(delta);
 	//read input
 	detectInput();
+	//update slider
+	slider.update(keystate, delta);
 	//update the camera with the new input
-	camera.Update(keystate, mouseState, delta);
+	camera.Update(keystate, mouseState, delta, (int)slider.getPosX());
 	//set local copy of view matrix to the camera view
 	viewMatrix = camera.GetCameraView();
 }
@@ -263,7 +265,7 @@ void ResourceManager::draw()
 	//using render to texture and the node's id
 	if(redrawTextures)
 	{
-		for(std::list<Node*>::iterator it = displayManager.nodeList.begin(); it != displayManager.nodeList.end(); it++)
+		for(std::list<Node*>::iterator it = graphManager.nodeList.begin(); it != graphManager.nodeList.end(); it++)
 		{
 			ID3D10RenderTargetView* renderTargets[1] = {(*it)->textureRTV};
 			mDevice->OMSetRenderTargets(1, renderTargets, dsView);
@@ -294,7 +296,7 @@ void ResourceManager::draw()
 	//for every node in the graph, set a world-view-projection matrix for it based on its 
 	//stored position on the graph (calculated in setUpGeometry()), and then render it in that position
 	int i = 0;
-	for(std::list<Node*>::iterator it = displayManager.nodeList.begin(); it != displayManager.nodeList.end(); it++)
+	for(std::list<Node*>::iterator it = graphManager.nodeList.begin(); it != graphManager.nodeList.end(); it++)
 	{
 		nodeFXDiffuseMap->SetResource((*it)->textureSRV);//pass texture resource view
 		wvpMatrix = positionList[i] * viewMatrix * projMatrix;
@@ -317,6 +319,9 @@ void ResourceManager::draw()
 		LinkPass->Apply(0);
 		it->draw();
 	}
+
+	//draw slider after 3D scene as been rendered
+	slider.draw();
 
 	mSwapChain->Present(0, 0);
 }

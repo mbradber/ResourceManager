@@ -17,7 +17,7 @@ void Camera::init(D3DXVECTOR3 pos, D3DXVECTOR3 target, D3DXVECTOR3 up)
 	D3DXVec3Cross(&cameraSide, &cameraUp, &cameraDirection);
 }
 
-void Camera::Update(BYTE* keyboard, DIMOUSESTATE mouse, float delta)
+void Camera::Update(BYTE* keyboard, DIMOUSESTATE mouse, float delta, int speedScale)
 {
 	memcpy(keystate, keyboard, 256);
 	mouseState = mouse;
@@ -26,19 +26,19 @@ void Camera::Update(BYTE* keyboard, DIMOUSESTATE mouse, float delta)
 	//handle key input
 	//MOVEMENTS ALONG Z AXIX
 	if(keystate[DIK_W] & 0x80)
-		cameraPosition += cameraDirection * deltaTime * velocity;
+		cameraPosition += cameraDirection * deltaTime * velocity * speedScale;
 	if(keystate[DIK_S] & 0x80)
-		cameraPosition -= cameraDirection * deltaTime * velocity;
+		cameraPosition -= cameraDirection * deltaTime * velocity * speedScale;
 	//MOVEMENTS ALONG X AXIS
 	if(keystate[DIK_A] & 0x80)
-		cameraPosition -= cameraSide * deltaTime * velocity;
+		cameraPosition -= cameraSide * deltaTime * velocity * speedScale;
 	if(keystate[DIK_D] & 0x80)
-		cameraPosition += cameraSide * deltaTime * velocity;
+		cameraPosition += cameraSide * deltaTime * velocity * speedScale;
 	//MOVEMENTS ALONG Y AXIS
 	if(keystate[DIK_Z] & 0x80)
-		cameraPosition += cameraUp * deltaTime * velocity;
+		cameraPosition += cameraUp * deltaTime * velocity * speedScale;
 	if(keystate[DIK_X] & 0x80)
-		cameraPosition -= cameraUp * deltaTime * velocity;
+		cameraPosition -= cameraUp * deltaTime * velocity * speedScale;
 
 	//enable camera rotations from mouse
 	if(mouseState.rgbButtons[0] & 0x80)//check that left mouse is down

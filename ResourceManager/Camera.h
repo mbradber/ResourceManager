@@ -9,7 +9,7 @@ public:
 	~Camera(void){}
 
 	void init(D3DXVECTOR3 pos, D3DXVECTOR3 target, D3DXVECTOR3 up);
-	void Update(BYTE* keyboard, DIMOUSESTATE mouse, float delta);
+	void Update(BYTE* keyboard, DIMOUSESTATE mouse, float delta, int speedScale);
 	D3DXMATRIX GetCameraView() const {return cameraViewMatrix;}
 
 private:
