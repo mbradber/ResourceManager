@@ -62,5 +62,10 @@ protected:
 
 	__int64 cps;
 
+private:
+	POINT findRelativeMousePos();
+	POINT points[1];
+	RECT clientLoc[1];
+
 };
 

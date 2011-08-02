@@ -16,8 +16,6 @@ public:
 	std::list<std::string> getLineList() const {return lineList;}
 
 private:
-	void organizeFile(std::string);
-
 	std::ofstream out;
 	std::ifstream in;
 	int lines;

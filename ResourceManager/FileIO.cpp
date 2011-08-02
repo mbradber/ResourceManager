@@ -57,8 +57,6 @@ void FileIO::readFile(std::string fileName)
 			currentText += currentLine + "\n";
 		}
 	}
-
-	organizeFile(currentText);
 }
 
 void FileIO::clearFile(std::string file)
@@ -66,24 +64,4 @@ void FileIO::clearFile(std::string file)
 	out.open(file);
 	out<< "";
 	out.close();
-}
-
-void FileIO::organizeFile(std::string currentText)
-{
-	//convert passed in string to char array
-	char* tokenizeMe = new char[currentText.size()+1];
-	tokenizeMe[currentText.size()] = NULL;
-	memcpy(tokenizeMe, currentText.c_str(), currentText.size());
-
-	char* tokenString;
-	
-
-	//for(std::list<std::string>::iterator itr = lineList.begin(); itr != lineList.end(); itr++)
-	//{
-	//	tokenString = strtok(tokenizeMe, " ");
-	//	while(tokenString!=NULL)
-	//	{
-
-	//	}
-	//}
 }

@@ -50,7 +50,6 @@ private:
 
 	//FX variables to update
 	ID3D10EffectShaderResourceVariable* nodeFXDiffuseMap;
-	ID3D10ShaderResourceView* boxDiffuseMapRV;
 	ID3D10EffectMatrixVariable* pWVPMatrixLinks;
 	ID3D10EffectMatrixVariable* pWVPMatrixNodes;
 
@@ -94,6 +93,11 @@ hInstance(hi), theta(0)
 
 ResourceManager::~ResourceManager()
 {
+	FREE(idFont);
+	FREE(LinkFX);
+	FREE(NodeFX);
+	FREE(PosColLayout);
+	FREE(PosTexLayout);
 }
 
 void ResourceManager::setUpGeometry()
@@ -196,7 +200,6 @@ void ResourceManager::initFX()
 	NodeFX = buildFX(L"Nodes.fx");
 	pWVPMatrixNodes = NodeFX->GetVariableByName("wvpMatrix")->AsMatrix();
 	nodeFXDiffuseMap = NodeFX->GetVariableByName("diffuseMap")->AsShaderResource();
-	D3DX10CreateShaderResourceViewFromFile(mDevice, L"WoodCrate01.dds", 0, 0, &boxDiffuseMapRV, 0);
 }
 
 ID3D10Effect* ResourceManager::buildFX(std::wstring filename)
@@ -249,10 +252,13 @@ void ResourceManager::updateScene(float delta)
 	DXApp::updateScene(delta);
 	//read input
 	detectInput();
+
 	//update slider
 	slider.update(keystate, delta);
+
 	//update the camera with the new input
-	camera.Update(keystate, mouseState, delta, (int)slider.getPosX());
+	camera.Update(keystate, mouseState, delta, (int)slider.sliderPosX);
+
 	//set local copy of view matrix to the camera view
 	viewMatrix = camera.GetCameraView();
 }

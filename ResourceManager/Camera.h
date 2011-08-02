@@ -20,8 +20,8 @@ private:
 	D3DXVECTOR3 cameraDirection;
 	D3DXVECTOR3 cameraUp;
 	D3DXVECTOR3 cameraSide;
-	//adjust speed of movement
-	static const UINT velocity = 5;
+	//buffer movement speed
+	float movementBuffer;
 	
 	//input states
 	float deltaTime;

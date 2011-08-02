@@ -61,6 +61,7 @@ void GraphManager::init(ID3D10Device* device, std::list<std::string> lines)
 			token = strtok(NULL, " ");
 		}
 
+		delete tokenizeMe;
 	}
 }
 
@@ -78,4 +79,6 @@ Node* GraphManager::searchNodes(std::string nodeID)
 
 GraphManager::~GraphManager(void)
 {
+	for(std::list<Node*>::iterator itr = nodeList.begin(); itr!= nodeList.end(); itr++)
+		delete *itr;
 }

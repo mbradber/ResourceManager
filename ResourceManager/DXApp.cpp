@@ -312,6 +312,8 @@ void DXApp::resetTargets()
 
 void DXApp::updateScene(float delta)
 {
+	findRelativeMousePos();
+
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cps);
 
 	frames++;
@@ -328,10 +330,21 @@ void DXApp::updateScene(float delta)
 	}
 
 	out << L"Time: " << currTime << L"\n" 
-		<<L"FPS: " << fps << L"\n" <<L"MPF: "
-		<<mpf;
+		<<L"FPS: " << fps << L"\n" <<L"MPF: " << mpf;
 	totalTime = out.str();
+}
 
+POINT DXApp::findRelativeMousePos()
+{
+	POINT mouseCoords;
+
+	GetCursorPos(points);
+	GetWindowRect(mainWindow, clientLoc);
+
+	mouseCoords.x = points[0].x - clientLoc[0].left;
+	mouseCoords.y = points[0].y - clientLoc[0].top;
+
+	return mouseCoords;
 }
 
 void DXApp::draw()
@@ -340,7 +353,6 @@ void DXApp::draw()
 	mDevice->ClearDepthStencilView(dsView, D3D10_CLEAR_DEPTH|D3D10_CLEAR_STENCIL, 1.0f, 0);
 
 	font->DrawText(0, totalTime.c_str(), -1, &someRect, DT_NOCLIP, fontColor);
-
 }
 
 int DXApp::run()

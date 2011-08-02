@@ -13,10 +13,9 @@ Cube::~Cube(void)
 void Cube::deallocate()
 {
 	pDevice = NULL;
-	vb->Release();
-	vb = NULL;
-	ib->Release();
-	ib = NULL;
+
+	FREE(vb);
+	FREE(ib);
 }
 
 void Cube::init(ID3D10Device* device, float scale)

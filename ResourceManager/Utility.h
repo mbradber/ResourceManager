@@ -1,12 +1,16 @@
 #pragma once
 #include<list>
 #include<d3dx10.h>
+#include <dxerr.h>
 
 //enable/disable debug mode
 #define DEBUG
 
 //useful macros
 #define PI 3.14159265
+
+//Release COM macro
+#define FREE(x) {if(x){x->Release(); x = 0; }}
 
 //generic method to determine if a list contains an element
 template<class T>

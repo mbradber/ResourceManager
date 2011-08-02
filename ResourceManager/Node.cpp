@@ -48,7 +48,8 @@ void Node::loadTexture()
 	}
 }
 
-
 Node::~Node(void)
 {
+	FREE(textureSRV);
+	FREE(textureRTV);
 }

@@ -3,7 +3,7 @@
 #include<cmath>
 
 Camera::Camera():
-maxPitch(PI / 4), currentPitch(0)
+maxPitch(PI / 4), currentPitch(0), movementBuffer(0.5)
 {
 }
 
@@ -26,19 +26,19 @@ void Camera::Update(BYTE* keyboard, DIMOUSESTATE mouse, float delta, int speedSc
 	//handle key input
 	//MOVEMENTS ALONG Z AXIX
 	if(keystate[DIK_W] & 0x80)
-		cameraPosition += cameraDirection * deltaTime * velocity * speedScale;
+		cameraPosition += cameraDirection * deltaTime * speedScale * movementBuffer;
 	if(keystate[DIK_S] & 0x80)
-		cameraPosition -= cameraDirection * deltaTime * velocity * speedScale;
+		cameraPosition -= cameraDirection * deltaTime * speedScale * movementBuffer;
 	//MOVEMENTS ALONG X AXIS
 	if(keystate[DIK_A] & 0x80)
-		cameraPosition -= cameraSide * deltaTime * velocity * speedScale;
+		cameraPosition -= cameraSide * deltaTime * speedScale * movementBuffer;
 	if(keystate[DIK_D] & 0x80)
-		cameraPosition += cameraSide * deltaTime * velocity * speedScale;
+		cameraPosition += cameraSide * deltaTime * speedScale * movementBuffer;
 	//MOVEMENTS ALONG Y AXIS
 	if(keystate[DIK_Z] & 0x80)
-		cameraPosition += cameraUp * deltaTime * velocity * speedScale;
+		cameraPosition += cameraUp * deltaTime * speedScale * movementBuffer;
 	if(keystate[DIK_X] & 0x80)
-		cameraPosition -= cameraUp * deltaTime * velocity * speedScale;
+		cameraPosition -= cameraUp * deltaTime * speedScale * movementBuffer;
 
 	//enable camera rotations from mouse
 	if(mouseState.rgbButtons[0] & 0x80)//check that left mouse is down
