@@ -1,6 +1,7 @@
 #pragma once
 #include<list>
 #include<string>
+#include<vector>
 #include"Utility.h"
 #include"Node.h"
 
@@ -11,6 +12,7 @@ public:
 	~GraphManager(void);
 
 	void init(ID3D10Device*, std::list<std::string>);
+	void updateNodes();
 	std::list<Node*> nodeList;
 
 private:

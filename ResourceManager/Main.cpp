@@ -146,6 +146,8 @@ void ResourceManager::init()
 	initDInput(hInstance, mainWindow);
 	//init graph manager
 	graphManager.init(mDevice, io.getLineList());
+	//update the existing nodes after reading the NodeStatus.txt file (status information from the GUI)
+	graphManager.updateNodes();
 	//init geometry to be drawn
 	setUpGeometry();
 	//init the font
@@ -275,7 +277,11 @@ void ResourceManager::draw()
 		{
 			ID3D10RenderTargetView* renderTargets[1] = {(*it)->textureRTV};
 			mDevice->OMSetRenderTargets(1, renderTargets, dsView);
-			mDevice->ClearRenderTargetView((*it)->textureRTV, BLACK);
+
+			if((*it)->enabled)
+				mDevice->ClearRenderTargetView((*it)->textureRTV, BLACK);
+			else
+				mDevice->ClearRenderTargetView((*it)->textureRTV, RED);
 
 			std::wostringstream textToDraw;
 			textToDraw << (*it)->nodeID.c_str();

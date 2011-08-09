@@ -65,3 +65,19 @@ void FileIO::clearFile(std::string file)
 	out<< "";
 	out.close();
 }
+
+void FileIO::getStatus(std::string& deleted, std::string& disabled)
+{
+	std::ifstream input("NodeStatus.txt");
+
+	if(input.is_open())
+	{
+		for(int i = 0; i < 2; i++)
+		{
+			if(i == 0)
+				getline(input, deleted);
+			if(i == 1)
+				getline(input, disabled);
+		}
+	}
+}

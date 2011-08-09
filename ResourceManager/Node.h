@@ -19,6 +19,9 @@ public:
 	ID3D10ShaderResourceView* textureSRV;
 	ID3D10RenderTargetView* textureRTV;
 
+	bool visible;
+	bool enabled;
+
 private:
 	void buildCube();
 

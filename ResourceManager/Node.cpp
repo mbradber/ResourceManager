@@ -1,7 +1,7 @@
 #include "Node.h"
 
 Node::Node(ID3D10Device* device, std::string id, float scale):
-pDevice(device), cubeScale(scale), nodeID(id)
+pDevice(device), cubeScale(scale), nodeID(id), visible(true), enabled(true)
 {
 	dependList.clear();
 	buildCube();

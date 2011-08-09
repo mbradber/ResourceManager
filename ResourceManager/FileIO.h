@@ -15,6 +15,8 @@ public:
 	int getLines() const {return lineList.size();}
 	std::list<std::string> getLineList() const {return lineList;}
 
+	void getStatus(std::string& deleted, std::string& disabled);
+
 private:
 	std::ofstream out;
 	std::ifstream in;

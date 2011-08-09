@@ -1,4 +1,4 @@
-a b c
-b c
-c d e f
-
+handgun bullets
+bullets ore
+bombs ore
+turret bullets
