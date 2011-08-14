@@ -1,7 +1,8 @@
 #include "Slider.h"
 #include <dinput.h>
 
-Slider::Slider()
+Slider::Slider():
+pDevice(0), sliderSprite(0)
 {
 	sliderPosX = 15;
 	sliderPosY = 20;
@@ -55,9 +56,13 @@ void Slider::createObject(LPCWSTR filename, D3DX10_SPRITE* spriteObject, D3DXCOL
 
 	HRESULT hr = D3DX10CreateTextureFromFile(pDevice, filename, 0, 0, &spriteResource, 0);
 	if(FAILED(hr))
+	{
 		MessageBoxA(0, "An image file is missing", 0, 0); 
+		return;
+	}
 
-	spriteResource->QueryInterface(__uuidof(ID3D10Texture2D), (LPVOID*)&spriteTexture);
+	if(spriteResource)
+		spriteResource->QueryInterface(__uuidof(ID3D10Texture2D), (LPVOID*)&spriteTexture);
 
 	D3D10_TEXTURE2D_DESC desc;
 	spriteTexture->GetDesc(&desc);
@@ -102,7 +107,7 @@ void Slider::update(BYTE* keyboard, float delta)
 void Slider::rebuildProjection(int w, int h)
 {
 	D3DXMATRIX spriteProjectionMatrix;
-	D3DXMatrixOrthoOffCenterLH(&spriteProjectionMatrix, 0, w, 0, h, 0.1f, 10);
+	D3DXMatrixOrthoOffCenterLH(&spriteProjectionMatrix, 0, (float)w, 0, (float)h, 0.1f, 10);
 	sliderSprite->SetProjectionTransform(&spriteProjectionMatrix);
 }
 

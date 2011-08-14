@@ -24,37 +24,37 @@ void Cube::init(ID3D10Device* device, float scale)
 	numVerts = 24;
 	numFaces = 12;
 
-	// Fill in the front face vertex data.
+	//fill in the front face vertex data.
  	v[0] = PosTexVertex(D3DXVECTOR3(-1.0f, -1.0f, -1.0f), D3DXVECTOR2(0, 1));
 	v[1] = PosTexVertex(D3DXVECTOR3(-1.0f,  1.0f, -1.0f), D3DXVECTOR2(0, 0));
 	v[2] = PosTexVertex(D3DXVECTOR3(1.0f,  1.0f, -1.0f), D3DXVECTOR2(1, 0));
 	v[3] = PosTexVertex(D3DXVECTOR3(1.0f, -1.0f, -1.0f), D3DXVECTOR2(1, 1));
 
-	// Fill in the back face PosTexVertex data.
+	//fill in the back face PosTexVertex data.
 	v[4] = PosTexVertex(D3DXVECTOR3(-1.0f, -1.0f, 1.0f), D3DXVECTOR2(1, 1));
 	v[5] = PosTexVertex(D3DXVECTOR3(1.0f, -1.0f, 1.0f), D3DXVECTOR2(0, 1));
 	v[6] = PosTexVertex(D3DXVECTOR3(1.0f,  1.0f, 1.0f), D3DXVECTOR2(0, 0));
 	v[7] = PosTexVertex(D3DXVECTOR3(-1.0f,  1.0f, 1.0f), D3DXVECTOR2(1, 0));
 
-	// Fill in the top face PosTexVertex data.
+	//fill in the top face PosTexVertex data.
 	v[8]  = PosTexVertex(D3DXVECTOR3(-1.0f, 1.0f, -1.0f), D3DXVECTOR2(0, 1));
 	v[9]  = PosTexVertex(D3DXVECTOR3(-1.0f, 1.0f,  1.0f), D3DXVECTOR2(0, 0));
 	v[10] = PosTexVertex(D3DXVECTOR3(1.0f, 1.0f,  1.0f), D3DXVECTOR2(1, 0));
 	v[11] = PosTexVertex(D3DXVECTOR3(1.0f, 1.0f, -1.0f), D3DXVECTOR2(1, 1));
 
-	// Fill in the bottom face PosTexVertex data.
+	//fill in the bottom face PosTexVertex data.
 	v[12] = PosTexVertex(D3DXVECTOR3(-1.0f, -1.0f, -1.0f), D3DXVECTOR2(1, 1));
 	v[13] = PosTexVertex(D3DXVECTOR3(1.0f, -1.0f, -1.0f), D3DXVECTOR2(0, 1));
 	v[14] = PosTexVertex(D3DXVECTOR3(1.0f, -1.0f,  1.0f), D3DXVECTOR2(0, 0));
 	v[15] = PosTexVertex(D3DXVECTOR3(-1.0f, -1.0f,  1.0f), D3DXVECTOR2(1, 0));
 
-	// Fill in the left face PosTexVertex data.
+	//fill in the left face PosTexVertex data.
 	v[16] = PosTexVertex(D3DXVECTOR3(-1.0f, -1.0f,  1.0f), D3DXVECTOR2(0, 1));
 	v[17] = PosTexVertex(D3DXVECTOR3(-1.0f,  1.0f,  1.0f), D3DXVECTOR2(0, 0));
 	v[18] = PosTexVertex(D3DXVECTOR3(-1.0f,  1.0f, -1.0f), D3DXVECTOR2(1, 0));
 	v[19] = PosTexVertex(D3DXVECTOR3(-1.0f, -1.0f, -1.0f), D3DXVECTOR2(1, 1));
 
-	// Fill in the right face PosTexVertex data.
+	//fill in the right face PosTexVertex data.
 	v[20] = PosTexVertex(D3DXVECTOR3(1.0f, -1.0f, -1.0f), D3DXVECTOR2(0, 1));
 	v[21] = PosTexVertex(D3DXVECTOR3(1.0f,  1.0f, -1.0f), D3DXVECTOR2(0, 0));
 	v[22] = PosTexVertex(D3DXVECTOR3(1.0f,  1.0f,  1.0f), D3DXVECTOR2(1, 0));
@@ -64,27 +64,27 @@ void Cube::init(ID3D10Device* device, float scale)
 	// Create the index buffer
 	DWORD i[36];
 
-	// Fill in the front face index data
+	//fill in the front face index data
 	i[0] = 0; i[1] = 1; i[2] = 2;
 	i[3] = 0; i[4] = 2; i[5] = 3;
 
-	// Fill in the back face index data
+	//fill in the back face index data
 	i[6] = 4; i[7]  = 5; i[8]  = 6;
 	i[9] = 4; i[10] = 6; i[11] = 7;
 
-	// Fill in the top face index data
+	//fill in the top face index data
 	i[12] = 8; i[13] =  9; i[14] = 10;
 	i[15] = 8; i[16] = 10; i[17] = 11;
 
-	// Fill in the bottom face index data
+	//fill in the bottom face index data
 	i[18] = 12; i[19] = 13; i[20] = 14;
 	i[21] = 12; i[22] = 14; i[23] = 15;
 
-	// Fill in the left face index data
+	//fill in the left face index data
 	i[24] = 16; i[25] = 17; i[26] = 18;
 	i[27] = 16; i[28] = 18; i[29] = 19;
 
-	// Fill in the right face index data
+	//fill in the right face index data
 	i[30] = 20; i[31] = 21; i[32] = 22;
 	i[33] = 20; i[34] = 22; i[35] = 23;
 

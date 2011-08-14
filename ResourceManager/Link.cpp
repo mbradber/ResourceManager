@@ -1,10 +1,6 @@
 #include "Link.h"
 #include<vector>
 
-Link::Link()
-{
-}
-
 Link::Link(ID3D10Device* device, D3DXVECTOR4 &from, D3DXVECTOR4 &to):
 numVerts(0), pDevice(0), vb(0)
 {

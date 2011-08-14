@@ -2,7 +2,8 @@
 #include <cstring>
 #include "FileIO.h"
 
-GraphManager::GraphManager()
+GraphManager::GraphManager():
+pDevice(0)
 {
 }
 
@@ -11,7 +12,7 @@ void GraphManager::init(ID3D10Device* device, std::list<std::string> lines)
 	lineList = lines;
 
 	//from the list of lines in the file, parse each line into nodes
-	for(std::list<std::string>::iterator itr = lineList.begin(); itr != lineList.end(); itr++)
+	for(std::list<std::string>::iterator itr = lineList.begin(); itr != lineList.end(); ++itr)
 	{
 		//if empty line, continue
 		if(itr->size() < 1)
@@ -61,13 +62,13 @@ void GraphManager::init(ID3D10Device* device, std::list<std::string> lines)
 			token = strtok(NULL, " ");
 		}
 
-		delete tokenizeMe;
+		delete[] tokenizeMe;
 	}
 }
 
 Node* GraphManager::searchNodes(std::string nodeID)
 {
-	for(std::list<Node*>::iterator itr = nodeList.begin(); itr!= nodeList.end(); itr++)
+	for(std::list<Node*>::iterator itr = nodeList.begin(); itr!= nodeList.end(); ++itr)
 	{
 		Node* temp = *itr;
 		if(temp->nodeID == nodeID)
@@ -90,34 +91,39 @@ void GraphManager::updateNodes()
 	std::vector<Node*> disabledVector;
 	std::vector<Node*> deletedVector;
 
+	//grab the lines from the node status file and store them in strings
 	io.getStatus(deleted, disabled);
 
-	//convert the line to a c string
+	//convert deleted to a c string
 	char* tokenizeMe = new char[deleted.size()+1];
 	tokenizeMe[deleted.size()] = NULL;
 	memcpy(tokenizeMe, deleted.c_str(), deleted.size());
 	char* token = strtok(tokenizeMe, ",");
 
+	//parse and store all of the deleted nodes
 	while(token != NULL)
 	{
 		deletedList.push_back(token);
 		token = strtok(NULL, ",");
 	}
-	
-	delete tokenizeMe;
+	delete[] tokenizeMe;
 
+	//converted disabled to a c string
 	tokenizeMe = new char[disabled.size()+1];
 	tokenizeMe[disabled.size()] = NULL;
 	memcpy(tokenizeMe, disabled.c_str(), disabled.size());
 	token = strtok(tokenizeMe, ",");
 
+	//parse and store all of the disabled nodes
 	while(token != NULL)
 	{
 		disabledList.push_back(token);
 		token = strtok(NULL, ",");
 	}
+	delete[] tokenizeMe;
 
-	for(std::list<std::string>::iterator itr = deletedList.begin(); itr != deletedList.end(); itr++)
+	//for each node in the deleted list, set it's visibility to false and disable it
+	for(std::list<std::string>::iterator itr = deletedList.begin(); itr != deletedList.end(); ++itr)
 	{
 		Node* tempNode = searchNodes(*itr);
 		tempNode->visible = false;
@@ -126,7 +132,8 @@ void GraphManager::updateNodes()
 		deletedVector.push_back(tempNode);
 	}
 
-	for(std::list<std::string>::iterator itr = disabledList.begin(); itr != disabledList.end(); itr++)
+	//for each node in the disabled list, disable it
+	for(std::list<std::string>::iterator itr = disabledList.begin(); itr != disabledList.end(); ++itr)
 	{
 		Node* tempNode = searchNodes(*itr);
 		tempNode->enabled = false;
@@ -135,19 +142,19 @@ void GraphManager::updateNodes()
 	}
 
 	//remove all links to the deleted nodes
-	for(std::list<Node*>::iterator itr = nodeList.begin(); itr != nodeList.end(); itr++)
+	for(std::list<Node*>::iterator itr = nodeList.begin(); itr != nodeList.end(); ++itr)
 	{
-		for(std::vector<Node*>::iterator it = deletedVector.begin(); it != deletedVector.end(); it++)
+		for(std::vector<Node*>::iterator it = deletedVector.begin(); it != deletedVector.end(); ++it)
 			(*itr)->dependList.remove(*it);
 	}
 
 	//remove the deleted nodes from the list
-	for(std::vector<Node*>::iterator it = deletedVector.begin(); it != deletedVector.end(); it++)
+	for(std::vector<Node*>::iterator it = deletedVector.begin(); it != deletedVector.end(); ++it)
 		nodeList.remove(*it);
 }
 
 GraphManager::~GraphManager(void)
 {
-	for(std::list<Node*>::iterator itr = nodeList.begin(); itr!= nodeList.end(); itr++)
+	for(std::list<Node*>::iterator itr = nodeList.begin(); itr!= nodeList.end(); ++itr)
 		delete *itr;
 }

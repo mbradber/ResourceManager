@@ -48,7 +48,7 @@ bool Timer::updateFPS()
 double Timer::getDelta()
 {
 
-	double tDelta = getGameTime() - lastDelta;
+	float tDelta = getGameTime() - lastDelta;
 	lastDelta = tDelta;
 	return tDelta;
 }

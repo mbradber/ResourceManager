@@ -5,7 +5,6 @@
 class Link
 {
 public:
-	Link();
 	Link(ID3D10Device* device, D3DXVECTOR4 &from, D3DXVECTOR4 &to);
 	~Link(void);
 	void init(ID3D10Device* device, D3DXVECTOR4 &from, D3DXVECTOR4 &to);

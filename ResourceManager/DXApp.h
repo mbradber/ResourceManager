@@ -49,6 +49,7 @@ protected:
 	BYTE keystate[256];
 	DIMOUSESTATE mouseState;
 
+	//Time variables
 	Timer gameTimer;
 	std::wstring totalTime;
 	int frames;
@@ -63,6 +64,7 @@ protected:
 	__int64 cps;
 
 private:
+	//Mouse location variables
 	POINT findRelativeMousePos();
 	POINT points[1];
 	RECT clientLoc[1];

@@ -84,7 +84,9 @@ private:
 };
 
 ResourceManager::ResourceManager(HINSTANCE hi):
-hInstance(hi), theta(0)
+hInstance(hi), theta(0), PosColLayout(0), PosTexLayout(0),
+LinkFX(0), NodeFX(0), nodeFXDiffuseMap(0), pWVPMatrixLinks(0),
+pWVPMatrixNodes(0), idFont(0), radius(0), interval(0)
 {
 	io.clearFile("Debug.txt");
 	io.readFile("resource.txt");
@@ -108,11 +110,11 @@ void ResourceManager::setUpGeometry()
 	//for every node in the graph, create and store a world matrix for it so that it lies
 	//on the circumferance of the circular graph, also registering its position within the 
 	//node data structure itself
-	for(std::list<Node*>::iterator it = graphManager.nodeList.begin(); it != graphManager.nodeList.end(); it++)
+	for(std::list<Node*>::iterator it = graphManager.nodeList.begin(); it != graphManager.nodeList.end(); ++it)
 	{
 		D3DXMATRIX newMatrix;
-		int xCoord = radius * cosf(theta);
-		int yCoord = radius * sinf(theta);
+		float xCoord = radius * cosf(theta);
+		float yCoord = radius * sinf(theta);
 
 		D3DXMatrixTranslation(&newMatrix, xCoord, yCoord, 0);
 		positionList.push_back(newMatrix);
@@ -122,11 +124,11 @@ void ResourceManager::setUpGeometry()
 	}
 
 	//for every node in the graph, create and store a link between that node and its resource nodes
-	for(std::list<Node*>::iterator it = graphManager.nodeList.begin(); it != graphManager.nodeList.end(); it++)
+	for(std::list<Node*>::iterator it = graphManager.nodeList.begin(); it != graphManager.nodeList.end(); ++it)
 	{
 		if((*it)->dependList.size() > 0)
 		{
-			for(std::list<Node*>::iterator itr = (*it)->dependList.begin(); itr != (*it)->dependList.end(); itr++)
+			for(std::list<Node*>::iterator itr = (*it)->dependList.begin(); itr != (*it)->dependList.end(); ++itr)
 			{
 				Link newLink(mDevice, (*it)->position, (*itr)->position);
 				linkList.push_back(newLink);
@@ -155,7 +157,7 @@ void ResourceManager::init()
 	//init slider
 	slider.initSprite(mDevice);
 	//init camera
-	camera.init(D3DXVECTOR3(0, 0, -3 * (int)graphManager.nodeList.size()), 
+	camera.init(D3DXVECTOR3(0, 0, -3 * (float)graphManager.nodeList.size()), 
 		D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 1, 0));
 
 	//build the projection matrix and start the game clock
@@ -189,7 +191,7 @@ void ResourceManager::handleResize()
 {
 	DXApp::handleResize();
 	//if window resized, scene needs to rebuild it's projection matrix
-	D3DXMatrixPerspectiveFovLH(&projMatrix, 0.25f*PI, (float)CLIENT_WIDTH/CLIENT_HEIGHT, 1.0f, 1000.0f);
+	D3DXMatrixPerspectiveFovLH(&projMatrix, (float)(0.25f*PI), (float)CLIENT_WIDTH/CLIENT_HEIGHT, 1.0f, 1000.0f);
 
 	//if window resized, the slider needs to rebuild it's projection matrix
 	slider.rebuildProjection(CLIENT_WIDTH, CLIENT_HEIGHT);
@@ -248,7 +250,6 @@ void ResourceManager::buildLayouts()
 		passDesc.IAInputSignatureSize, &PosTexLayout);
 }
 
-//overwrite the update and draw methods
 void ResourceManager::updateScene(float delta)
 {
 	DXApp::updateScene(delta);
@@ -273,7 +274,7 @@ void ResourceManager::draw()
 	//using render to texture and the node's id
 	if(redrawTextures)
 	{
-		for(std::list<Node*>::iterator it = graphManager.nodeList.begin(); it != graphManager.nodeList.end(); it++)
+		for(std::list<Node*>::iterator it = graphManager.nodeList.begin(); it != graphManager.nodeList.end(); ++it)
 		{
 			ID3D10RenderTargetView* renderTargets[1] = {(*it)->textureRTV};
 			mDevice->OMSetRenderTargets(1, renderTargets, dsView);
@@ -308,7 +309,7 @@ void ResourceManager::draw()
 	//for every node in the graph, set a world-view-projection matrix for it based on its 
 	//stored position on the graph (calculated in setUpGeometry()), and then render it in that position
 	int i = 0;
-	for(std::list<Node*>::iterator it = graphManager.nodeList.begin(); it != graphManager.nodeList.end(); it++)
+	for(std::list<Node*>::iterator it = graphManager.nodeList.begin(); it != graphManager.nodeList.end(); ++it)
 	{
 		nodeFXDiffuseMap->SetResource((*it)->textureSRV);//pass texture resource view
 		wvpMatrix = positionList[i] * viewMatrix * projMatrix;
@@ -326,7 +327,7 @@ void ResourceManager::draw()
 	pWVPMatrixLinks->SetMatrix(wvpMatrix);
 
 	//render every stored link that was created in setUpGeometry()
-	for(std::vector<Link>::iterator it = linkList.begin(); it!=linkList.end(); it++)
+	for(std::vector<Link>::iterator it = linkList.begin(); it!=linkList.end(); ++it)
 	{
 		LinkPass->Apply(0);
 		it->draw();

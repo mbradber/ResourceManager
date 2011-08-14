@@ -1,4 +1,16 @@
-handgun bullets
-bullets ore
-bombs ore
-turret bullets
+Base Bricks Concrete Wood Steel
+Turret Bullets Steel GunPowder
+Bullets Ore Anvil
+Anvil Steel Wood Furnace
+Furnace Wood Bricks Concrete
+Concrete Sand Water
+Bow Arrow String Wood
+Arrow Steel Wood
+Boat Wood Steel
+Tank Steel Turret Glass Rubber Gears
+Gears Ore Anvil
+Glass Sand
+Armor Steel String Leather Wood
+Sword Steel Wood Leather
+Catapult Wood Stone Steel String Leather Wheels
+Wheels Wood Rubber Steel Gears

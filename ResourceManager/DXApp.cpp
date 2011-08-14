@@ -1,6 +1,7 @@
 #include"DXApp.h"
 
 DXApp::DXApp():
+mDevice(0), mSwapChain(0), rtView(0), dsView(0), dsBuffer(0), font(0),
 deltaA(0), deltaB(0), deltaTime(0)
 {
 	CLIENT_WIDTH = 800;
@@ -22,7 +23,6 @@ deltaA(0), deltaB(0), deltaTime(0)
 	resizing = false;
 
 	QueryPerformanceFrequency((LARGE_INTEGER*)&cps);
-
 }
 
 DXApp::~DXApp()
@@ -51,14 +51,14 @@ MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		case WM_CREATE:
 		{
-			// Get the 'this' pointer we passed to CreateWindow via the lpParam parameter.
+			//get the 'this' pointer we passed to CreateWindow via the lpParam parameter.
 			CREATESTRUCT* cs = (CREATESTRUCT*)lParam;
 			app = (DXApp*)cs->lpCreateParams;
 			return 0;
 		}
 	}
 
-	// Don't start processing messages until after WM_CREATE.
+	//don't process messages until the window has been created
 	if( app )
 		return app->cbProc(hwnd, msg, wParam, lParam);
 	else
@@ -67,18 +67,12 @@ MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 void DXApp::handleResize()
 {
-	// Release the old views, as they hold references to the buffers we
-	// will be destroying.  Also release the old depth/stencil buffer.
-	rtView->Release();
-	dsView->Release();
-	dsBuffer->Release();
+	//release the old views and the ds buffer
+	FREE(rtView);
+	FREE(dsView);
+	FREE(dsBuffer);
 
-	rtView = NULL;
-	dsView = NULL;
-	dsBuffer = NULL;
-
-	// Resize the swap chain and recreate the render target view.
-
+	//resize the swap chain and rebuild the render target
 	mSwapChain->ResizeBuffers(1, CLIENT_WIDTH, CLIENT_HEIGHT, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
 	ID3D10Texture2D* backBuffer;
 	mSwapChain->GetBuffer(0, __uuidof(ID3D10Texture2D), reinterpret_cast<void**>(&backBuffer));
@@ -86,8 +80,7 @@ void DXApp::handleResize()
 	backBuffer->Release();
 	backBuffer = NULL;
 
-	// Create the depth/stencil buffer and view.
-
+	//create the new depth stencil buffer and view
 	D3D10_TEXTURE2D_DESC depthStencilDesc;
 	
 	depthStencilDesc.Width     = CLIENT_WIDTH;
@@ -105,13 +98,10 @@ void DXApp::handleResize()
 	mDevice->CreateTexture2D(&depthStencilDesc, 0, &dsBuffer);
 	mDevice->CreateDepthStencilView(dsBuffer, 0, &dsView);
 
-	// Bind the render target view and depth/stencil view to the pipeline.
-
+	//bind the render target view and the ds view to the pipeline
 	mDevice->OMSetRenderTargets(1, &rtView, dsView);
 	
-	// Set the viewport transform.
-
-	
+	//set the new viewport
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
 	vp.Width    = CLIENT_WIDTH;
@@ -187,7 +177,7 @@ bool DXApp::initWindow(HINSTANCE instanceHandle, int show)
 
 void DXApp::initD3D()
 {
-	//Create the Device and Swap Chain
+	//create the device and swap chain
 	DXGI_MODE_DESC md;
 	DXGI_SAMPLE_DESC sd;
 	DXGI_SWAP_CHAIN_DESC sc;
@@ -215,16 +205,14 @@ void DXApp::initD3D()
 	D3D10CreateDeviceAndSwapChain(0, D3D10_DRIVER_TYPE_HARDWARE, 0, 
 									0, D3D10_SDK_VERSION, &sc, &mSwapChain, &mDevice);
 
-	//Create the Render Target View
-
+	//create the initial rendre target view
 	ID3D10Texture2D * backBuffer;
 	mSwapChain->GetBuffer(0, __uuidof(ID3D10Texture2D), reinterpret_cast<void**>(&backBuffer));
 	mDevice->CreateRenderTargetView(backBuffer, 0, &rtView);
 	backBuffer->Release();
 	backBuffer = NULL;
 
-	//Create Depth/Stencil Buffer and View
-
+	//create depth/stencil buffer and view
 	D3D10_TEXTURE2D_DESC dsDesc;
 	dsDesc.Width = CLIENT_WIDTH;
 	dsDesc.Height = CLIENT_HEIGHT;
@@ -241,10 +229,10 @@ void DXApp::initD3D()
 	mDevice->CreateTexture2D(&dsDesc, 0, &dsBuffer);
 	mDevice->CreateDepthStencilView(dsBuffer, 0, &dsView);
 
-	//Bind to output merger stage
+	//bind to output merger stage
 	mDevice->OMSetRenderTargets(1, &rtView, dsView); 
 
-	//Set the viewport
+	//set the viewport
 	D3D10_VIEWPORT vp;
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
@@ -255,7 +243,7 @@ void DXApp::initD3D()
 
 	mDevice->RSSetViewports(1, &vp);
 
-	//Init font
+	//init font
 	D3DX10_FONT_DESC fd;
 	fd.Height = 24;
 	fd.Width = 0;
@@ -329,8 +317,8 @@ void DXApp::updateScene(float delta)
 		mpf = (double)1/fps * 1000;
 	}
 
-	out << L"Time: " << currTime << L"\n" 
-		<<L"FPS: " << fps << L"\n" <<L"MPF: " << mpf;
+	//out << L"Time: " << currTime << L"\n" 
+	out	<<L"FPS: " << fps << L"\n" <<L"MPF: " << mpf;
 	totalTime = out.str();
 }
 

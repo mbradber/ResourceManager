@@ -1,10 +1,10 @@
 #pragma once
-#include<list>
-#include<d3dx10.h>
+#include <list>
+#include <d3dx10.h>
 #include <dxerr.h>
 
 //enable/disable debug mode
-#define DEBUG
+//#define DEBUG
 
 //useful macros
 #define PI 3.14159265
@@ -24,6 +24,7 @@ bool listContains(std::list<T>& checkList, T element)
 	return false;
 }
 
+//color macros
 const D3DXCOLOR WHITE(1.0f, 1.0f, 1.0f, 1.0f);
 const D3DXCOLOR BLACK(0.0f, 0.0f, 0.0f, 1.0f);
 const D3DXCOLOR RED(1.0f, 0.0f, 0.0f, 1.0f);

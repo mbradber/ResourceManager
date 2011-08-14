@@ -1,2 +1,2 @@
-bullets,
-handgun,turret,
+Steel,
+Base,Turret,Anvil,Arrow,Boat,Tank,Armor,Sword,Catapult,Wheels,Bullets,Gears,Bow,
